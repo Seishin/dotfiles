@@ -22,21 +22,19 @@ My personal configuration for shell, editor, and terminal.
 
 ## Install
 
-These steps **symlink** the files into your home directory so edits in this repo apply immediately.
+Use the installer to **symlink** the files into your home directory so edits in this repo apply immediately (and it will back up anything it overwrites).
 
 ```bash
 git clone <this-repo> ~/dotfiles
 cd ~/dotfiles
+./install.sh --dry-run
+./install.sh
+```
 
-# backups (only if files already exist)
-mkdir -p ~/.dotfiles-backup
-for f in .zshrc .vimrc; do
-  [ -e "$HOME/$f" ] && mv "$HOME/$f" "$HOME/.dotfiles-backup/$f.$(date +%Y%m%d-%H%M%S)"
-done
+To also install common dependencies (macOS + Homebrew):
 
-# symlink dotfiles
-ln -sfn "$PWD/.zshrc" "$HOME/.zshrc"
-ln -sfn "$PWD/.vimrc" "$HOME/.vimrc"
+```bash
+./install.sh --brew
 ```
 
 ### Ghostty config location (macOS)
@@ -45,13 +43,7 @@ Ghostty typically reads:
 
 - `~/Library/Application Support/com.mitchellh.ghostty/config`
 
-To use the repo version, symlink the directory:
-
-```bash
-mkdir -p "$HOME/Library/Application Support/com.mitchellh.ghostty"
-ln -sfn "$PWD/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
-ln -sfn "$PWD/ghostty/themes" "$HOME/Library/Application Support/com.mitchellh.ghostty/themes"
-```
+`install.sh` links `ghostty/config` and `ghostty/themes` into that directory automatically.
 
 ## Prerequisites (recommended)
 
