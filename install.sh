@@ -75,9 +75,9 @@ prompt_yn() {
 
   while true; do
     if [[ -t 0 ]]; then
-      read -r -p "$prompt [y/N] " reply </dev/tty || true
+      read -r -p "$prompt (y=link, n=skip) [y/N] " reply </dev/tty || true
     else
-      read -r -p "$prompt [y/N] " reply || true
+      read -r -p "$prompt (y=link, n=skip) [y/N] " reply || true
     fi
     case "${reply:-}" in
       y|Y|yes|YES) return 0 ;;
@@ -96,13 +96,16 @@ prompt_conflict() {
     return 0
   fi
 
-  log "Conflict: $dst exists."
-  log "Choose: [o]verwrite (backup then install), [s]kip, [c]ancel"
+  log ""
+  log "Conflict: $dst already exists."
+  log "  [o] Overwrite  - backup the existing file, then create the link"
+  log "  [s] Skip       - leave it untouched, install nothing for this path"
+  log "  [c] Cancel     - abort the entire install"
   while true; do
     if [[ -t 0 ]]; then
-      read -r -p "Selection (o/s/c): " reply </dev/tty || true
+      read -r -p 'Selection ([o]verwrite / [s]kip / [c]ancel): ' reply </dev/tty || true
     else
-      read -r -p "Selection (o/s/c): " reply || true
+      read -r -p 'Selection ([o]verwrite / [s]kip / [c]ancel): ' reply || true
     fi
     case "${reply:-}" in
       o|O) printf "%s" "overwrite"; return 0 ;;
