@@ -143,6 +143,13 @@ link_file() {
     exit 1
   fi
 
+  # Idempotent: already a link to this exact source - nothing to do.
+  if [[ -L "$dst" ]] && [[ "$(readlink "$dst")" == "$src" ]]; then
+    log "Already linked: $dst -> $src"
+    APPLIED_COUNT=$((APPLIED_COUNT + 1))
+    return 0
+  fi
+
   if ! prompt_yn "Link $dst to $src?"; then
     log "Skip: $dst"
     SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
@@ -171,13 +178,13 @@ link_file() {
   fi
 
   if [[ "$DRY_RUN" -eq 1 ]]; then
-    log "[dry-run] ln -s $src $dst"
+    log "[dry-run] ln -sf $src $dst"
     log "Would link: $dst -> $src"
     APPLIED_COUNT=$((APPLIED_COUNT + 1))
     return 0
   fi
 
-  ln -s "$src" "$dst"
+  ln -sf "$src" "$dst"
   log "Linked: $dst -> $src"
   APPLIED_COUNT=$((APPLIED_COUNT + 1))
 }
@@ -191,7 +198,7 @@ link_bin() {
     return 0
   fi
   ensure_parent_dir "$dst"
-  run ln -s "$src" "$dst"
+  run ln -sf "$src" "$dst"
   log "Linked: $dst -> $src"
   APPLIED_COUNT=$((APPLIED_COUNT + 1))
 }
