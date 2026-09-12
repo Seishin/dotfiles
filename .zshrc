@@ -68,20 +68,24 @@ export BUN_INSTALL="$HOME/.bun"
 # =========================================================
 # PATH (single consolidated definition)
 # Order matters: custom tools → language managers → system
+# Uses the zsh `path` array (tied to $PATH) instead of a
+# multi-line string — embedded newlines in a plain PATH
+# string become part of each entry and silently break lookup.
 # =========================================================
-export PATH="
-$BUN_INSTALL/bin:
-$HOME/.antigravity/antigravity/bin:
-$HOME/.rbenv/bin:
-$ANDROID_HOME/emulator:
-$ANDROID_HOME/platform-tools:
-/opt/homebrew/opt/ruby/bin:
-/usr/local/opt/ruby/bin:
-/usr/local/opt/openjdk@17/bin:
-/Library/Frameworks/Python.framework/Versions/3.12/bin:
-/opt/homebrew/opt/qemu/bin:
-$PATH
-"
+typeset -U path
+path=(
+  $BUN_INSTALL/bin
+  $HOME/.antigravity/antigravity/bin
+  $HOME/.rbenv/bin
+  $ANDROID_HOME/emulator
+  $ANDROID_HOME/platform-tools
+  /opt/homebrew/opt/ruby/bin
+  /usr/local/opt/ruby/bin
+  /usr/local/opt/openjdk@17/bin
+  /Library/Frameworks/Python.framework/Versions/3.12/bin
+  /opt/homebrew/opt/qemu/bin
+  $path
+)
 
 # =========================================================
 # Tool Initialization
@@ -142,3 +146,36 @@ fi
 
 # bun completions
 [ -s "/Users/seishin/.bun/_bun" ] && source "/Users/seishin/.bun/_bun"
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/seishin/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH=$PATH:$HOME/.maestro/bin
+
+# Force High Contrast Themes for Goose
+# 'Monokai Extended' is high-contrast dark, 'GitHub' is high-contrast light.
+export GOOSE_CLI_THEME="dark"
+export GOOSE_CLI_DARK_THEME="Monokai Extended"
+export GOOSE_CLI_LIGHT_THEME="GitHub"
+
+# Disable any automatic theme switching for Goose
+unset FZF_DEFAULT_OPTS
+
+. "$HOME/.local/bin/env"
+
+# opencode
+export PATH=/Users/seishin/.opencode/bin:$PATH
+
+# Google Cloud SDK
+if [ -f "/opt/homebrew/share/google-cloud-sdk/path.zsh.inc" ]; then
+  source "/opt/homebrew/share/google-cloud-sdk/path.zsh.inc"
+fi
+if [ -f "/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc" ]; then
+  source "/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc"
+fi
+
+# cmux: recreate closed workspace tabs from config
+alias ct="cmux-restore"

@@ -10,6 +10,13 @@ Usage: ./install.sh [--dry-run] [--brew] [--backup-dir DIR] [--yes]
 
 Symlinks this repo's dotfiles into $HOME and backs up any existing files first.
 
+Configs installed:
+  .zshrc, .vimrc
+  ghostty/config   -> Ghostty app (Application Support) AND cmux (~/.config/ghostty)
+  ghostty/themes   -> Ghostty app (Application Support)
+  cmux/cmux.json   -> ~/.config/cmux/cmux.json (cmux app config: workspaces, tabs)
+  cmux/create-tabs.sh -> ~/.local/bin/cmux-restore (recreate closed tabs; alias `ct`)
+
 Options:
   --dry-run         Print actions without changing anything
   --brew            Install common dependencies via Homebrew (macOS)
@@ -172,6 +179,20 @@ link_file() {
   APPLIED_COUNT=$((APPLIED_COUNT + 1))
 }
 
+link_bin() {
+  # Symlink a repo script into ~/.local/bin (no prompt; bin dir is low-stakes).
+  local src="$1"
+  local dst="$2"
+  if [[ -e "$dst" || -L "$dst" ]]; then
+    log "Exists (leave as-is): $dst"
+    return 0
+  fi
+  ensure_parent_dir "$dst"
+  run ln -s "$src" "$dst"
+  log "Linked: $dst -> $src"
+  APPLIED_COUNT=$((APPLIED_COUNT + 1))
+}
+
 ensure_homebrew_deps() {
   if [[ "$BREW" -ne 1 ]]; then
     return 0
@@ -195,6 +216,10 @@ ensure_homebrew_deps() {
   run brew install neovim
   run brew install --cask ghostty || true
 
+  # cmux: the AI-agent terminal the workspace config targets
+  run brew tap manaflow-ai/cmux
+  run brew install --cask cmux || true
+
   # fzf post-install is safe to ignore if already configured
   run "$(brew --prefix)/opt/fzf/install" --key-bindings --completion --no-update-rc || true
 }
@@ -207,12 +232,13 @@ main() {
 
   ensure_homebrew_deps
 
+  local xdg_config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+
   # Home dotfiles
   link_file "$REPO_DIR/.zshrc" "$HOME/.zshrc"
   link_file "$REPO_DIR/.vimrc" "$HOME/.vimrc"
 
   # Neovim: prefer XDG config layout, but don't fight an existing ~/.config/nvim symlink.
-  local xdg_config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
   local nvim_dir="$xdg_config_home/nvim"
   local nvim_init="$nvim_dir/init.vim"
   if [[ -L "$nvim_dir" ]]; then
@@ -227,6 +253,15 @@ main() {
   link_file "$REPO_DIR/ghostty/config" "$ghostty_dir/config"
   link_file "$REPO_DIR/ghostty/themes" "$ghostty_dir/themes"
 
+  # Ghostty config also feeds cmux (~/.config/ghostty/config is cmux's preferred path)
+  link_file "$REPO_DIR/ghostty/config" "$xdg_config_home/ghostty/config"
+
+  # cmux app config: workspaces, tabs, commands
+  link_file "$REPO_DIR/cmux/cmux.json" "$xdg_config_home/cmux/cmux.json"
+
+  # cmux tab-restore command (portable): `cmux-restore` (alias `ct`)
+  link_bin "$REPO_DIR/cmux/create-tabs.sh" "$HOME/.local/bin/cmux-restore"
+
   log "Done."
   log "Summary: applied=$APPLIED_COUNT skipped=$SKIPPED_COUNT"
   if [[ -d "$BACKUP_DIR" ]]; then
@@ -235,4 +270,3 @@ main() {
 }
 
 main
-

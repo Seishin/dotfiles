@@ -1,0 +1,473 @@
+{
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
+  "app": {
+    "windowTitleTemplate": "[cmux:{windowToken}] {activeWorkspace}",
+    "workspaceInheritWorkingDirectory": true
+  },
+  "terminal": {
+    "copyOnSelect": true,
+    "showScrollBar": true,
+    "autoResumeAgentSessions": true
+  },
+  "browser": {
+    "openTerminalLinksInCmuxBrowser": true,
+    "hostsToOpenInEmbeddedBrowser": [
+      "localhost",
+      "127.0.0.1"
+    ]
+  },
+  "automation": {
+    "suppressSubagentNotifications": true
+  },
+  "workspaceColors": {
+    "indicatorStyle": "washRail",
+    "colors": {
+      "Red": "#C0392B",
+      "Blue": "#1565C0",
+      "Green": "#27AE60",
+      "Purple": "#8E44AD",
+      "Orange": "#E67E22"
+    }
+  },
+  "commands": [
+    {
+      "name": "Hermes VM",
+      "keywords": [
+        "ssh",
+        "hermes",
+        "vm",
+        "agent"
+      ],
+      "workspace": {
+        "name": "Hermes VM",
+        "cwd": "/Users/seishin/Workspace",
+        "layout": {
+          "pane": {
+            "surfaces": [
+              {
+                "type": "terminal",
+                "name": "hermes-vm",
+                "command": "exec /usr/bin/ssh -t -o ServerAliveInterval=60 seishin@192.168.88.3 'exec /home/seishin/.local/bin/hermes --tui'",
+                "focus": true
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Dev: slideforge",
+      "keywords": [
+        "next",
+        "slides",
+        "ai"
+      ],
+      "description": "Open slideforge workspace: terminal + claude + dev server + VM ssh",
+      "workspace": {
+        "name": "slideforge",
+        "cwd": "/Users/seishin/Workspace/slideforge",
+        "layout": {
+          "direction": "horizontal",
+          "split": 0.45,
+          "children": [
+            {
+              "pane": {
+                "surfaces": [
+                  {
+                    "type": "terminal",
+                    "name": "term",
+                    "focus": true
+                  }
+                ]
+              }
+            },
+            {
+              "direction": "vertical",
+              "split": 0.5,
+              "children": [
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "claude",
+                        "command": "exec /Users/seishin/.local/bin/claude"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "dev",
+                        "command": "cd /Users/seishin/Workspace/slideforge && exec /usr/local/bin/npm run dev"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Dev: adminpanel",
+      "keywords": [
+        "next",
+        "supabase",
+        "saas",
+        "admin"
+      ],
+      "description": "Open adminpanel workspace: terminal + claude + dev server + VM ssh",
+      "workspace": {
+        "name": "adminpanel",
+        "cwd": "/Users/seishin/Workspace/NaughtySpirit/web/adminpanel",
+        "layout": {
+          "direction": "horizontal",
+          "split": 0.45,
+          "children": [
+            {
+              "pane": {
+                "surfaces": [
+                  {
+                    "type": "terminal",
+                    "name": "term",
+                    "focus": true
+                  }
+                ]
+              }
+            },
+            {
+              "direction": "vertical",
+              "split": 0.5,
+              "children": [
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "claude",
+                        "command": "exec /Users/seishin/.local/bin/claude"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "dev",
+                        "command": "cd /Users/seishin/Workspace/NaughtySpirit/web/adminpanel && exec /usr/local/bin/npm run dev"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Dev: pixelmesh",
+      "keywords": [
+        "next",
+        "pixel",
+        "nostalgia"
+      ],
+      "description": "Open pixelmesh workspace: terminal + claude + dev server + VM ssh",
+      "workspace": {
+        "name": "pixelmesh",
+        "cwd": "/Users/seishin/Workspace/NaughtySpirit/web/pixelmesh",
+        "layout": {
+          "direction": "horizontal",
+          "split": 0.45,
+          "children": [
+            {
+              "pane": {
+                "surfaces": [
+                  {
+                    "type": "terminal",
+                    "name": "term",
+                    "focus": true
+                  }
+                ]
+              }
+            },
+            {
+              "direction": "vertical",
+              "split": 0.5,
+              "children": [
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "claude",
+                        "command": "exec /Users/seishin/.local/bin/claude"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "dev",
+                        "command": "cd /Users/seishin/Workspace/NaughtySpirit/web/pixelmesh && exec /usr/local/bin/npm run dev"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Dev: launchkit",
+      "keywords": [
+        "next",
+        "launch",
+        "marketing"
+      ],
+      "description": "Open launchkit workspace: terminal + claude + dev server + VM ssh",
+      "workspace": {
+        "name": "launchkit",
+        "cwd": "/Users/seishin/Workspace/NaughtySpirit/web/launchkit",
+        "layout": {
+          "direction": "horizontal",
+          "split": 0.45,
+          "children": [
+            {
+              "pane": {
+                "surfaces": [
+                  {
+                    "type": "terminal",
+                    "name": "term",
+                    "focus": true
+                  }
+                ]
+              }
+            },
+            {
+              "direction": "vertical",
+              "split": 0.5,
+              "children": [
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "claude",
+                        "command": "exec /Users/seishin/.local/bin/claude"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "dev",
+                        "command": "cd /Users/seishin/Workspace/NaughtySpirit/web/launchkit && exec /usr/local/bin/npm run dev"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Dev: retroselfie",
+      "keywords": [
+        "rn",
+        "expo",
+        "metro",
+        "retro"
+      ],
+      "description": "Open retroselfie workspace: terminal + claude + dev server + VM ssh",
+      "workspace": {
+        "name": "retroselfie",
+        "cwd": "/Users/seishin/Workspace/NaughtySpirit/apps/retroselfie",
+        "layout": {
+          "direction": "horizontal",
+          "split": 0.45,
+          "children": [
+            {
+              "pane": {
+                "surfaces": [
+                  {
+                    "type": "terminal",
+                    "name": "term",
+                    "focus": true
+                  }
+                ]
+              }
+            },
+            {
+              "direction": "vertical",
+              "split": 0.5,
+              "children": [
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "claude",
+                        "command": "exec /Users/seishin/.local/bin/claude"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "dev",
+                        "command": "cd /Users/seishin/Workspace/NaughtySpirit/apps/retroselfie && exec /usr/local/bin/npm run dev"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Dev: grid",
+      "keywords": [
+        "rn",
+        "expo",
+        "metro"
+      ],
+      "description": "Open grid workspace: terminal + claude + dev server + VM ssh",
+      "workspace": {
+        "name": "grid",
+        "cwd": "/Users/seishin/Workspace/NaughtySpirit/apps/grid",
+        "layout": {
+          "direction": "horizontal",
+          "split": 0.45,
+          "children": [
+            {
+              "pane": {
+                "surfaces": [
+                  {
+                    "type": "terminal",
+                    "name": "term",
+                    "focus": true
+                  }
+                ]
+              }
+            },
+            {
+              "direction": "vertical",
+              "split": 0.5,
+              "children": [
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "claude",
+                        "command": "exec /Users/seishin/.local/bin/claude"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "dev",
+                        "command": "cd /Users/seishin/Workspace/NaughtySpirit/apps/grid && exec /usr/local/bin/npm run dev"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Dev: nared",
+      "keywords": [
+        "rn",
+        "expo",
+        "metro"
+      ],
+      "description": "Open nared workspace: terminal + claude + dev server + VM ssh",
+      "workspace": {
+        "name": "nared",
+        "cwd": "/Users/seishin/Workspace/NaughtySpirit/apps/nared",
+        "layout": {
+          "direction": "horizontal",
+          "split": 0.45,
+          "children": [
+            {
+              "pane": {
+                "surfaces": [
+                  {
+                    "type": "terminal",
+                    "name": "term",
+                    "focus": true
+                  }
+                ]
+              }
+            },
+            {
+              "direction": "vertical",
+              "split": 0.5,
+              "children": [
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "claude",
+                        "command": "exec /Users/seishin/.local/bin/claude"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pane": {
+                    "surfaces": [
+                      {
+                        "type": "terminal",
+                        "name": "dev",
+                        "command": "cd /Users/seishin/Workspace/NaughtySpirit/apps/nared && exec /usr/local/bin/npm run dev"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sidebarAppearance": {
+    "matchTerminalBackground": true
+  },
+  "paneBorderColor": "#586e75",
+  "activePaneBorderColor": "#268bd2"
+}

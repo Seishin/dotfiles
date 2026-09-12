@@ -66,3 +66,18 @@ Install what you actually use from these configs:
 - **macOS theme switching**: both `.zshrc` and `.vimrc` read `AppleInterfaceStyle` and adjust behavior based on light vs dark mode.
 - **Paths are opinionated**: `.zshrc` sets SDK paths (Android SDK, Zulu JDK 17, Homebrew Ruby/OpenJDK) and adds them to `PATH`.
 
+
+## cmux (terminal for AI coding agents)
+
+- `cmux/cmux.json` - app config: 8 workspace tabs (Hermes VM + Dev layouts), each a 3-pane split (terminal | claude + dev server), localhost links to the embedded browser, notification + tab appearance settings.
+- `ghostty/config` - shared with cmux (`~/.config/ghostty/config`); `install.sh` links it to both Ghostty locations.
+- `cmux/create-tabs.sh` - recreates closed tabs from the config. Installed as `~/.local/bin/cmux-restore`, zsh alias `ct`.
+
+First-time setup on a new machine:
+
+```bash
+./install.sh --brew     # installs cmux + deps, symlinks everything
+ct                      # in any cmux terminal: recreate all tabs
+```
+
+Notes: workspace paths default to `~/Workspace/...`; `create-tabs.sh` rewrites the old `/Users/seishin` prefix to `$HOME` at runtime, so a different username works. Clone your project repos under `~/Workspace` first. For the Hermes VM tab on a new host, run `cmux ssh user@host --command 'hermes --tui'` once (reconnects through sleeps; plain-tab variant is in the config).
