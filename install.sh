@@ -75,9 +75,9 @@ prompt_yn() {
 
   while true; do
     if [[ -t 0 ]]; then
-      read -r "reply?$prompt [y/N] " </dev/tty || true
+      read -r -p "$prompt [y/N] " reply </dev/tty || true
     else
-      read -r "reply?$prompt [y/N] " || true
+      read -r -p "$prompt [y/N] " reply || true
     fi
     case "${reply:-}" in
       y|Y|yes|YES) return 0 ;;
@@ -100,9 +100,9 @@ prompt_conflict() {
   log "Choose: [o]verwrite (backup then install), [s]kip, [c]ancel"
   while true; do
     if [[ -t 0 ]]; then
-      read -r "reply?Selection (o/s/c): " </dev/tty || true
+      read -r -p "Selection (o/s/c): " reply </dev/tty || true
     else
-      read -r "reply?Selection (o/s/c): " || true
+      read -r -p "Selection (o/s/c): " reply || true
     fi
     case "${reply:-}" in
       o|O) printf "%s" "overwrite"; return 0 ;;
