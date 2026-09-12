@@ -140,7 +140,7 @@ link_file() {
     exit 1
   fi
 
-  if ! prompt_yn "Install $dst -> $src?"; then
+  if ! prompt_yn "Link $dst to $src?"; then
     log "Skip: $dst"
     SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
     return 0
